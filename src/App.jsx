@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import './App.css';
+import Toast from './Toast';
 
 const App = () => {
   const IMGURL = import.meta.env.BASE_URL;
@@ -8,6 +9,7 @@ const App = () => {
   const [isLoginView, setIsLoginView] = useState(true);
   const [formData, setFormData] = useState({email: "", password: "", fullname: "", mobile: "", cpassword: ""});
   const [errorData, setErrorData] = useState({});
+  const [toast, setToast] = useState({});
 
   function tooglePwd(){
     setTooglePassword(tooglePassword === "password" ? "text" : "password");
@@ -18,6 +20,7 @@ const App = () => {
   }
 
   function switchView(){
+    setErrorData({});
     setFormData({fullname: "", email: "", mobile: "", password: "", cpassword: ""});
     setIsLoginView(isLoginView === true ? false : true);
   }
@@ -31,7 +34,8 @@ const App = () => {
     if(validatesignin())
       return;
 
-    alert("Testing");
+    setToast({type: "warning", message: "From Sign In", id: Date.now()});
+    //alert("Testing");
   }
 
   function validatesignin(){
@@ -116,6 +120,8 @@ const App = () => {
           <p>Already have an account? <label onClick={()=>switchView()}>Login Here</label></p>
         </div>
       }
+
+      <Toast toastData={toast} />
     </div>
   );
 }
